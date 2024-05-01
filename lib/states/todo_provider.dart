@@ -8,8 +8,6 @@ class ToDoState extends _$ToDoState {
   List<String> build() => [];
 
   void addToDo(String todo) {
-    print('Adding todo: $todo');
-    state.add(todo);
-    print('ToDoState: state: $state');
+    state = [...state, todo];
   }
 }
