@@ -7,7 +7,7 @@ class AppBarGoBack extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.secondary,
+      backgroundColor: AppColors.backgroundLightColor2,
       leading: BackButton(
         onPressed: () {
           Navigator.of(context).pop();

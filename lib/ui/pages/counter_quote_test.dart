@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/states/counter_provider.dart';
 import 'package:flutter_new_riverpod_test/states/test_provider.dart';
-import 'package:flutter_new_riverpod_test/ui/components/app_bar_go_back.dart';
+import 'package:flutter_new_riverpod_test/ui/components/general/app_bar_go_back.dart';
+import 'package:flutter_new_riverpod_test/ui/visual_settings/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CounterQuoteTest extends ConsumerWidget {
@@ -15,7 +16,7 @@ class CounterQuoteTest extends ConsumerWidget {
     final randomQuote = ref.watch(randomQuoteProvider);
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 143, 163, 173),
+      backgroundColor: AppColors.backgroundLightColor,
       appBar: const AppBarGoBack(),
       body: Center(
         child: Padding(

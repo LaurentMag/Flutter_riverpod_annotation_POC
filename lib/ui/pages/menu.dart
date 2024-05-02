@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_new_riverpod_test/ui/components/navigation_button.dart';
+import 'package:flutter_new_riverpod_test/ui/components/general/navigation_button.dart';
 import 'package:flutter_new_riverpod_test/ui/visual_settings/colors.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,13 +10,13 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.secondary,
+        backgroundColor: AppColors.backgroundLightColor2,
         title: const Text(
           'Menu',
-          style: TextStyle(color: AppColors.textColor),
+          style: TextStyle(color: AppColors.textColorDark),
         ),
       ),
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.backgroundLightColor,
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
@@ -31,6 +31,11 @@ class Menu extends StatelessWidget {
             NavigationButton(
               buttonText: 'todo list',
               action: () => context.go('/todo_list'),
+            ),
+            const SizedBox(height: 32),
+            NavigationButton(
+              buttonText: 'todo list with tabs',
+              action: () => context.go('/todo_list_tabs'),
             ),
           ],
         ),

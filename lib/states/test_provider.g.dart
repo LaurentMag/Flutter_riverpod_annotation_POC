@@ -20,7 +20,7 @@ final listQuotesProvider = AutoDisposeProvider<List<String>>.internal(
 );
 
 typedef ListQuotesRef = AutoDisposeProviderRef<List<String>>;
-String _$randomQuoteHash() => r'7bf847d164b4425b3db933aa182fba26d53c14a1';
+String _$randomQuoteHash() => r'0c25d1d52ee39933dd0b541180d95b2e742f76fc';
 
 /// See also [randomQuote].
 @ProviderFor(randomQuote)

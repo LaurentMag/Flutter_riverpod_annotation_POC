@@ -22,7 +22,5 @@ String randomQuote(RandomQuoteRef ref) {
   final quotes = ref.watch(listQuotesProvider);
   final String randomQuote = quotes[Random().nextInt(quotes.length)];
 
-  print(randomQuote);
-
   return randomQuote;
 }
