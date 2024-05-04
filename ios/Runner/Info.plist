@@ -45,5 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSWindow</key>
+    <dict>
+        <key>NSInitialSize</key>
+        <string>{565, 845}</string>
+    </dict>
 </dict>
 </plist>
