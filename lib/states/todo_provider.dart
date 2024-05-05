@@ -1,7 +1,11 @@
-import 'dart:math';
+import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter_new_riverpod_test/models/to_do_model.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_new_riverpod_test/data/factories/to_do_factory.dart';
+import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'todo_provider.g.dart';
 
@@ -12,37 +16,54 @@ class ToDoState extends _$ToDoState {
   @override
   List<ToDoModel> build() => [];
 
-  void toggleToDoCheck(int id) {
-    final index = getListElementIndex(id);
-    state = List.from(state)..[index].toggleDone();
-  }
-
-  void addToDo(String todo) {
-    state = List.from(state)..add(createNewToDoModel(todo));
-  }
-
-  void removeToDoAt(int id) {
-    final index = getListElementIndex(id);
-    state = List.from(state)..removeAt(index);
-  }
-
-  /// generate a random id for the to-do item
-  int generateRandomId() {
-    return Random().nextInt(100000);
-  }
-
-  /// Create a new [ToDoModel] with the given [todo] and a random id
-  ToDoModel createNewToDoModel(String todo) {
-    return ToDoModel(
-      id: generateRandomId(),
-      title: todo,
-      date: DateTime.now().toUtc(),
-      isDone: false,
-    );
-  }
-
   /// Get the index of the element with the given [id]
-  int getListElementIndex(int id) {
+  int _getListElementIndex(int id) {
     return state.indexWhere((element) => element.id == id);
+  }
+
+  Future<void> toggleToDoCheck(int id) async {
+    final index = _getListElementIndex(id);
+    state = List.from(state)..[index].toggleDone();
+    await _saveStateToJson();
+  }
+
+  Future<void> addToDo(String todo) async {
+    state = List.from(state)..insert(0, ToDoFactory.createNewToDoModel(todo));
+    await _saveStateToJson();
+  }
+
+  Future<void> removeToDoAt(int id) async {
+    final index = _getListElementIndex(id);
+    state = List.from(state)..removeAt(index);
+    await _saveStateToJson();
+  }
+
+  Future<void> retrieveToDos() async {
+    try {
+      final file = await _localFile;
+      if (await file.exists()) {
+        final contents = await file.readAsString();
+        final data = jsonDecode(contents) as List;
+        state = data.map((json) => ToDoModel.fromJson(json)).toList();
+      }
+    } catch (e) {
+      debugPrint('Error while reading file: $e');
+    }
+  }
+
+  Future<void> _saveStateToJson() async {
+    final file = await _localFile;
+    final json = jsonEncode(state.map((e) => e.toJson()).toList());
+    await file.writeAsString(json);
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/todos.json');
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/states/counter_provider.dart';
 import 'package:flutter_new_riverpod_test/states/test_provider.dart';
-import 'package:flutter_new_riverpod_test/ui/components/general/app_bar_go_back.dart';
-import 'package:flutter_new_riverpod_test/ui/visual_settings/colors.dart';
+import 'package:flutter_new_riverpod_test/ui/general/app_bar_go_back.dart';
+import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CounterQuoteTest extends ConsumerWidget {
@@ -16,31 +16,29 @@ class CounterQuoteTest extends ConsumerWidget {
     final randomQuote = ref.watch(randomQuoteProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundLightColor,
+      backgroundColor: AppColors.grayLightBg,
       appBar: const AppBarGoBack(),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Counter Value from provider:',
-              ),
-              Text(
-                '$countervalue',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 64),
-              const Text(
-                'Random Quote:',
-              ),
-              Text(
-                randomQuote,
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            const Text(
+              'Counter Value from provider:',
+            ),
+            Text(
+              '$countervalue',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 64),
+            const Text(
+              'Random Quote:',
+            ),
+            Text(
+              randomQuote,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

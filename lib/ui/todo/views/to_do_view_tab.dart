@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_new_riverpod_test/ui/visual_settings/colors.dart';
+import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ToDoViewTabs extends ConsumerWidget {
@@ -11,7 +11,7 @@ class ToDoViewTabs extends ConsumerWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors.backgroundLightColor2,
+          backgroundColor: AppColors.grayAppBarBg,
           bottom: const TabBar(
             tabs: [
               Tab(icon: Icon(Icons.format_list_bulleted_rounded)),
@@ -22,7 +22,7 @@ class ToDoViewTabs extends ConsumerWidget {
         ),
         body: Center(
           child: Container(
-            color: AppColors.backgroundLightColor,
+            color: AppColors.grayLightBg,
             child: const TabBarView(
               children: [
                 Icon(Icons.directions_car),

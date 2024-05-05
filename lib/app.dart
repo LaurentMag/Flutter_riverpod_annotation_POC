@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_new_riverpod_test/router/router.dart';
-import 'package:flutter_new_riverpod_test/ui/visual_settings/colors.dart';
+import 'package:flutter_new_riverpod_test/router.dart';
+import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 
 class AppRoot extends StatelessWidget {
   const AppRoot({super.key});
@@ -11,7 +11,7 @@ class AppRoot extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.grayLightBg),
         useMaterial3: true,
       ),
       routerConfig: appRouter,

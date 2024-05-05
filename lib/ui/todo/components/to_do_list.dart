@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_new_riverpod_test/models/to_do_model.dart';
+import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
 import 'package:flutter_new_riverpod_test/states/todo_provider.dart';
-import 'package:flutter_new_riverpod_test/ui/components/todo_components/to_do_item.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ToDoList extends ConsumerWidget {
@@ -14,14 +14,19 @@ class ToDoList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // ref.read(toDoStateProvider.notifier).retrieveToDos();
+
     return Expanded(
       child: ListView.builder(
         itemCount: toDoList.length,
         itemBuilder: (context, index) {
-          return ToDoItem(
-            toDo: toDoList[index],
-            onToggle: () => onToggle(ref, toDoList[index].id),
-            onDelete: () => removeToDoAt(ref, toDoList[index].id),
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: ToDoItem(
+              toDo: toDoList[index],
+              onToggleToDo: () => onToggle(ref, toDoList[index].id),
+              onDeleteToDo: () => removeToDoAt(ref, toDoList[index].id),
+            ),
           );
         },
       ),

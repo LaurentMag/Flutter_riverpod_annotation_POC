@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class TextFieldTodo extends StatelessWidget {
   final String label;
   final void Function(String) onTextFieldSubmitted;
-
   TextFieldTodo({
     super.key,
     required this.label,
@@ -23,6 +22,7 @@ class TextFieldTodo extends StatelessWidget {
           border: const OutlineInputBorder(),
           labelText: label,
         ),
+        maxLength: 80,
         onSubmitted: (String value) {
           // ignore: avoid_print
           onTextFieldSubmitted(value);
