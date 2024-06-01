@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
 import 'package:flutter_new_riverpod_test/states/todo_provider.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ToDoList extends ConsumerWidget {

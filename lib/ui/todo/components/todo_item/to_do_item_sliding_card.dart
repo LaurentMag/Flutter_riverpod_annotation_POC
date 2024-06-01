@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item_date.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_date.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
 import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 
-class ToDoItemTopAnimated extends StatelessWidget {
+class ToDoItemSlidingCard extends StatelessWidget {
   final ToDoModel toDo;
   final double translationX;
   final double cardHeight;
 
-  const ToDoItemTopAnimated({
+  const ToDoItemSlidingCard({
     super.key,
     required this.toDo,
     required this.translationX,
@@ -19,8 +19,7 @@ class ToDoItemTopAnimated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration:
-          const Duration(milliseconds: TodoSettings.animationDurationTopCard),
+      duration: const Duration(milliseconds: animationDurationTopCard),
       transform: Matrix4.translationValues(translationX, 0, 0),
       child: Container(
         height: cardHeight,
@@ -39,7 +38,7 @@ class ToDoItemTopAnimated extends StatelessWidget {
                   child: Text(
                     toDo.title,
                     style: TextStyle(
-                        fontSize: TodoSettings.toDoCardFontSize,
+                        fontSize: toDoCardFontSize,
                         decoration:
                             toDo.isDone ? TextDecoration.lineThrough : null),
                   ),

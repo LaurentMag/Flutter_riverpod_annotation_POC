@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/animated_icon_button.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/animated_icon_button.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/to_do_item_logic.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
 import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 
 class ToDoItemUnderneathButtons extends StatelessWidget {
@@ -12,7 +11,7 @@ class ToDoItemUnderneathButtons extends StatelessWidget {
   final void Function() onDeleteTap;
   final double cardHeight;
   final double iconButtonsWidth;
-  final double translationX;
+  final double currentXOffset;
 
   const ToDoItemUnderneathButtons({
     super.key,
@@ -22,26 +21,26 @@ class ToDoItemUnderneathButtons extends StatelessWidget {
     required this.onDeleteTap,
     required this.cardHeight,
     required this.iconButtonsWidth,
-    required this.translationX,
+    required this.currentXOffset,
   });
 
   @override
   Widget build(BuildContext context) {
-    final double checkButtonWidth = translationX < 0
+    final double checkButtonWidth = currentXOffset < 0
         ? 0
-        : translationX <= TodoSettings.iconButtonWidth
-            ? TodoSettings.iconButtonWidth
-            : translationX;
+        : currentXOffset <= iconButtonWidth
+            ? iconButtonWidth
+            : currentXOffset;
 
-    final Color colorCheckButtonBackground = translationX > 0 && isToDoDone
+    final Color colorCheckButtonBackground = currentXOffset > 0 && isToDoDone
         ? AppColors.checkedButton
         : AppColors.grayLightBg;
 
-    final Color colorCheckIcon = translationX > 0 && isToDoDone
+    final Color colorCheckIcon = currentXOffset > 0 && isToDoDone
         ? AppColors.grayLight
         : AppColors.grayDark;
 
-    final IconData iconCheckButton = translationX > 0 && isToDoDone
+    final IconData iconCheckButton = currentXOffset > 0 && isToDoDone
         ? Icons.check_circle_outline
         : Icons.circle_outlined;
 
@@ -55,8 +54,7 @@ class ToDoItemUnderneathButtons extends StatelessWidget {
         children: [
           //check button
           AnimatedIconButton(
-            containerAnimationDuration:
-                TodoSettings.animationDurationBottomCard,
+            animationDuration: animationDurationBottomCard,
             containerWidth: checkButtonWidth,
             containerBackgroundColor: colorCheckButtonBackground,
             icon: iconCheckButton,
@@ -66,8 +64,8 @@ class ToDoItemUnderneathButtons extends StatelessWidget {
           ),
           const Spacer(),
           EditDeleteStack(
-            translationXAbs: translationX.abs(),
-            halfTranslationX: translationX.abs() / 2,
+            currentXOffsetAbs: currentXOffset.abs(),
+            halfCurrentXOffset: currentXOffset.abs() / 2,
             isDeletionThresholdMet: isDeletionThresholdMet,
             onDeleteTap: onDeleteTap,
           ),
@@ -80,8 +78,8 @@ class ToDoItemUnderneathButtons extends StatelessWidget {
 // ------------------------------------------------------------------------------------------
 
 class EditDeleteStack extends StatelessWidget {
-  final double translationXAbs;
-  final double halfTranslationX;
+  final double currentXOffsetAbs;
+  final double halfCurrentXOffset;
   final bool isDeletionThresholdMet;
   final void Function() onDeleteTap;
 
@@ -89,8 +87,8 @@ class EditDeleteStack extends StatelessWidget {
   ///
   ///```
   /// Stack(
-  ///   row(EditButton - placeholder)
-  ///       Positionned(DeleteButton)
+  ///   row| EditButton  |              placeholder |
+  ///                    | Positionned(DeleteButton |
   /// )
   ///```
   /// The `Stack` is used to have the `DeleteButton` **on top of** the `Row()` contaning the `EditButton` and the `placeholder`
@@ -99,18 +97,19 @@ class EditDeleteStack extends StatelessWidget {
   /// which is defined by the `Row()` containing 2 widget
   const EditDeleteStack({
     super.key,
-    required this.translationXAbs,
-    required this.halfTranslationX,
+    required this.currentXOffsetAbs,
+    required this.halfCurrentXOffset,
     required this.isDeletionThresholdMet,
     required this.onDeleteTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final double editDeleteWidth =
-        halfTranslationX <= TodoSettings.iconButtonWidth
-            ? TodoSettings.iconButtonWidth
-            : halfTranslationX;
+    /// determine based on the XOffset if the button will use his default width
+    /// Or "stretch" based on the 1/2 XOffset value (as we need to display 2 Btn side to side)
+    final double editButtonWidth = halfCurrentXOffset <= iconButtonWidth
+        ? iconButtonWidth
+        : halfCurrentXOffset;
 
     return Stack(
       children: [
@@ -118,9 +117,8 @@ class EditDeleteStack extends StatelessWidget {
           children: [
             // edit button
             AnimatedIconButton(
-              containerAnimationDuration:
-                  TodoSettings.animationDurationBottomCard,
-              containerWidth: editDeleteWidth,
+              animationDuration: animationDurationBottomCard,
+              containerWidth: editButtonWidth,
               containerBackgroundColor: AppColors.editButton,
               icon: Icons.edit_outlined,
               iconColor: AppColors.grayLight,
@@ -129,9 +127,9 @@ class EditDeleteStack extends StatelessWidget {
             ),
             // placeholder
             AnimatedContainer(
-              duration: const Duration(
-                  milliseconds: TodoSettings.animationDurationBottomCard),
-              width: editDeleteWidth,
+              duration:
+                  const Duration(milliseconds: animationDurationBottomCard),
+              width: editButtonWidth,
             ),
           ],
         ),
@@ -139,9 +137,9 @@ class EditDeleteStack extends StatelessWidget {
         Positioned(
           right: 0,
           child: AnimatedIconButton(
-            containerAnimationDuration: 100,
-            containerWidth:
-                setDynamicButtonWidth(translationXAbs, halfTranslationX),
+            animationDuration: 100,
+            containerWidth: changeBtnWidthBasedOnThreshold(
+                currentXOffsetAbs, halfCurrentXOffset),
             icon: Icons.delete_outline,
             containerBackgroundColor: AppColors.deleteButton,
             iconColor: AppColors.grayLight,
@@ -152,17 +150,4 @@ class EditDeleteStack extends StatelessWidget {
       ],
     );
   }
-}
-
-double setDynamicButtonWidth(double translationXAbs, double halfTranslation) {
-// if the translationX is greater than the deleteThresholdDistance
-  final bool isTranslationXExceedingThreshold =
-      translationXAbs > TodoSettings.deleteThresholdDistance;
-
-// if translation greater than the threshold, return the translationX as width, else return the half of the translationX like others buttons
-  final double dynamicButtonWidth =
-      isTranslationXExceedingThreshold ? translationXAbs : halfTranslation;
-
-// return the maximum between the dynamicButtonWidth and the iconButtonWidth
-  return max(dynamicButtonWidth, TodoSettings.iconButtonWidth);
 }

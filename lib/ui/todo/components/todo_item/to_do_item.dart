@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item_gesture_detector.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item_top_animated.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item_underneath_buttons.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_gesture_detector.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_sliding_card.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_underneath_buttons.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
 
 class ToDoItem extends StatelessWidget {
   final ToDoModel toDo;
@@ -30,13 +30,13 @@ class ToDoItem extends StatelessWidget {
         isDeletionThresholdMet: isDeletionThresholdMet,
         onToggleTap: onToggleToDo,
         onDeleteTap: onDeleteToDo,
-        cardHeight: TodoSettings.toDoCardHeight,
-        iconButtonsWidth: TodoSettings.iconButtonWidth,
-        translationX: translationX,
+        cardHeight: toDoCardHeight,
+        iconButtonsWidth: iconButtonWidth,
+        currentXOffset: translationX,
       ),
       // animatedToDoItem WIDGET
-      animatedToDoItemBuilder: (translationX) => ToDoItemTopAnimated(
-        cardHeight: TodoSettings.toDoCardHeight,
+      animatedToDoItemBuilder: (translationX) => ToDoItemSlidingCard(
+        cardHeight: toDoCardHeight,
         translationX: translationX,
         toDo: toDo,
       ),

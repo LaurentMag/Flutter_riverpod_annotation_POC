@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item_top_animated.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/logic/card_movement_handler.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/components/to_do_item_underneath_buttons.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_sliding_card.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/to_do_item_logic.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_underneath_buttons.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
 
 class ToDoItem extends StatefulWidget {
   final ToDoModel toDo;
@@ -75,12 +75,9 @@ class _ToDoItemState extends State<ToDoItem> {
   Widget build(BuildContext context) {
     double cardWidth = MediaQuery.of(context).size.width;
 
-    TodoSettings.rightTranslationLimit =
-        TodoSettings.maxwRightTranslCardWidthPct * cardWidth;
-    TodoSettings.leftTranslationLimit =
-        TodoSettings.maxLeftTranslCardWidthPct * cardWidth;
-    TodoSettings.deleteThresholdDistance =
-        TodoSettings.deleteThresholdCardWidthPct * cardWidth;
+    rightTranslationLimit = maxwRightTranslCardWidthPct * cardWidth;
+    leftTranslationLimit = maxLeftTranslCardWidthPct * cardWidth;
+    deleteThresholdDistance = deleteThresholdCardWidthPct * cardWidth;
 
     return Stack(
       children: [
@@ -89,39 +86,39 @@ class _ToDoItemState extends State<ToDoItem> {
           isDeletionThresholdMet: isDeletionThresholdMet,
           onToggleTap: widget.onToggle,
           onDeleteTap: widget.onDelete,
-          cardHeight: TodoSettings.toDoCardHeight,
-          iconButtonsWidth: TodoSettings.iconButtonWidth,
-          translationX: translationX,
+          cardHeight: toDoCardHeight,
+          iconButtonsWidth: iconButtonWidth,
+          currentXOffset: translationX,
         ),
         GestureDetector(
           onHorizontalDragUpdate: (details) {
-            CardMovementHandler.translationValueUpdateOnDrag(
+            updateXOffsetOnDrag(
               details: details,
-              translationX: translationX,
+              currentXOffset: translationX,
               updateTranslationX: updateTranslationX,
             );
           },
           onHorizontalDragEnd: (details) {
             final double velocity = details.velocity.pixelsPerSecond.dx;
 
-            CardMovementHandler.deleteTodoOnDragEnd(
+            deleteTodoOnDragEnd(
               isDeletionThresholdMet: isDeletionThresholdMet,
               velocityX: velocity,
               setDeletionFlag: setDeletionThresholdState,
               onDelete: widget.onDelete,
             );
 
-            CardMovementHandler.setButtonsVisibleOnDragEnd(
-              translationX: translationX,
-              setButtonsVisible: moveCardToButtonDisplayPosition,
+            setXOffsetToBtnWidthOnDragEnd(
+              currentXOffset: translationX,
+              setXOffset: moveCardToButtonDisplayPosition,
             );
-            CardMovementHandler.resetTopCardOnDragEnd(
-              translationX: translationX,
-              resetTranslationX: resetTranslationX,
+            resetTopCardOnDragEnd(
+              currentXOffset: translationX,
+              resetXOffset: resetTranslationX,
             );
           },
-          child: ToDoItemTopAnimated(
-            cardHeight: TodoSettings.toDoCardHeight,
+          child: ToDoItemSlidingCard(
+            cardHeight: toDoCardHeight,
             translationX: translationX,
             toDo: widget.toDo,
           ),

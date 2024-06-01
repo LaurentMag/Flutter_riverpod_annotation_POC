@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/logic/card_movement_handler.dart';
-import 'package:flutter_new_riverpod_test/ui/todo/logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/to_do_item_logic.dart';
+import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
 
 class ToDoItemGestureDetector extends StatefulWidget {
   final ToDoModel toDo;
@@ -34,10 +34,9 @@ class ToDoItemGestureDetector extends StatefulWidget {
 }
 
 class _ToDoItemGestureDetectorState extends State<ToDoItemGestureDetector> {
-  double _translationX = 0;
+  double _xGestureOffset = 0;
   bool _isDeletionThresholdReached = false;
-
-  double cardWidth = 0;
+  double _cardWidth = 0;
 
   /*
     Allow to reset the card's position to the center when one is deleted from the list
@@ -54,35 +53,32 @@ class _ToDoItemGestureDetectorState extends State<ToDoItemGestureDetector> {
   void didUpdateWidget(covariant ToDoItemGestureDetector oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.toDo != widget.toDo) {
-      setCardTranslation(0);
+      setXOffset(0);
     }
   }
 
   void updateCardWidthAndSettings(double newValue) {
-    if (cardWidth == newValue) return;
-    cardWidth = newValue;
+    if (_cardWidth == newValue) return;
+    _cardWidth = newValue;
 
-    TodoSettings.rightTranslationLimit =
-        TodoSettings.maxwRightTranslCardWidthPct * cardWidth;
-    TodoSettings.leftTranslationLimit =
-        TodoSettings.maxLeftTranslCardWidthPct * cardWidth;
-    TodoSettings.deleteThresholdDistance =
-        TodoSettings.deleteThresholdCardWidthPct * cardWidth;
+    rightTranslationLimit = maxwRightTranslCardWidthPct * _cardWidth;
+    leftTranslationLimit = maxLeftTranslCardWidthPct * _cardWidth;
+    deleteThresholdDistance = deleteThresholdCardWidthPct * _cardWidth;
   }
 
-  void updateTranslationX(double value) {
+  void updateXOffset(double value) {
     setState(() {
-      _translationX += value;
+      _xGestureOffset += value;
     });
   }
 
-  void setCardTranslation(double value) {
+  void setXOffset(double value) {
     setState(() {
-      _translationX = value;
+      _xGestureOffset = value;
     });
   }
 
-  void setDeletionFlag(bool value) {
+  void setDeletionThresholdFlag(bool value) {
     _isDeletionThresholdReached = value;
   }
 
@@ -95,48 +91,78 @@ class _ToDoItemGestureDetectorState extends State<ToDoItemGestureDetector> {
       children: [
         // TOP CARD
         widget.underneathButtonsBuilder(
-            _isDeletionThresholdReached, _translationX),
+            _isDeletionThresholdReached, _xGestureOffset),
         GestureDetector(
           // HORIZONTAL DRAG UPDATE
           onHorizontalDragUpdate: (details) {
-            CardMovementHandler.translationValueUpdateOnDrag(
+            updateXOffsetOnDrag(
+              currentXOffset: _xGestureOffset,
+              updateTranslationX: updateXOffset,
               details: details,
-              updateTranslationX: updateTranslationX,
-              translationX: _translationX,
             );
-            CardMovementHandler.toggleTodoOnDrag(
+            toggleTodoCompletionOnDrag(
+              currentXOffset: _xGestureOffset,
               completionToggle: widget.onToggle,
-              translationX: _translationX,
             );
-            CardMovementHandler.setThresholdFlagOnDrag(
-              translationX: _translationX,
+            setDeleteThresholdFlagOnDrag(
+              currentXOffset: _xGestureOffset,
+              setDeletionFlag: setDeletionThresholdFlag,
               isDeleteThresholdReached: _isDeletionThresholdReached,
-              setDeletionFlag: setDeletionFlag,
             );
           },
           //HORIZONTAL DRAG END
           onHorizontalDragEnd: (details) {
             final double velocity = details.velocity.pixelsPerSecond.dx;
 
-            CardMovementHandler.deleteTodoOnDragEnd(
+            deleteTodoOnDragEnd(
               velocityX: velocity,
-              setDeletionFlag: setDeletionFlag,
+              setDeletionFlag: setDeletionThresholdFlag,
               isDeletionThresholdMet: _isDeletionThresholdReached,
               onDelete: widget.onDelete,
             );
-            CardMovementHandler.setButtonsVisibleOnDragEnd(
-              translationX: _translationX,
-              setButtonsVisible: setCardTranslation,
+            setXOffsetToBtnWidthOnDragEnd(
+              currentXOffset: _xGestureOffset,
+              setXOffset: setXOffset,
             );
-            CardMovementHandler.resetTopCardOnDragEnd(
-              translationX: _translationX,
-              resetTranslationX: () => setCardTranslation(0),
+            resetTopCardOnDragEnd(
+              currentXOffset: _xGestureOffset,
+              resetXOffset: () => setXOffset(0),
             );
           },
           // UNDERNEATH CARD
-          child: widget.animatedToDoItemBuilder(_translationX),
+          child: widget.animatedToDoItemBuilder(_xGestureOffset),
         ),
       ],
     );
   }
 }
+
+
+
+
+
+
+// // to_do_item_gesture_logic.dart
+// class ToDoItemGestureLogic {
+//   void updateXOffsetOnDrag(/* parameters */) {
+//     // logic here
+//   }
+
+//   // other methods...
+// }
+
+// // to_do_item_gesture_detector.dart
+// class _ToDoItemGestureDetectorState extends State<ToDoItemGestureDetector> {
+//   final ToDoItemGestureLogic _logic = ToDoItemGestureLogic();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onHorizontalDragUpdate: (details) {
+//         _logic.updateXOffsetOnDrag(/* parameters */);
+//         // other calls...
+//       },
+//       // other callbacks...
+//     );
+//   }
+// }
