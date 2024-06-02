@@ -1,7 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/animated_icon_button.dart';
-import 'package:flutter_new_riverpod_test/ui_logic/to_do_item_logic.dart';
-import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_settings.dart';
 import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 
 class ToDoItemUnderneathButtons extends StatelessWidget {
@@ -150,4 +151,28 @@ class EditDeleteStack extends StatelessWidget {
       ],
     );
   }
+}
+
+/// During gesture :
+///
+/// Determine if the currentXOffset value is greater than the "delete threshold"
+/// (*trigger a delete function one drag release*)
+///
+/// `If` it is, it will change the button width to use the currentXOffset value, meaning it will fill the entier avialable space
+/// from the border of the card to the translating border card.
+///
+/// `Else` the button width will use half of the current XOffset.
+///
+/// return the highest value between the dynamicButtonWidth and the iconButtonWidth, use to determine the button width
+double changeBtnWidthBasedOnThreshold(
+    double currentXOffsetAbs, double halfXOffset) {
+// if the translationX is greater than the deleteThresholdDistance
+  final bool isXOffsetExceedingThreshold =
+      currentXOffsetAbs > deleteThresholdDistance;
+
+// if translation greater than the threshold, return the translationX as width, else return the half of the translationX like others buttons
+  final double dynamicButtonWidth =
+      isXOffsetExceedingThreshold ? currentXOffsetAbs : halfXOffset;
+
+  return max(dynamicButtonWidth, iconButtonWidth);
 }

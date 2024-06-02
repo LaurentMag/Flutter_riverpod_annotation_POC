@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_settings.dart';
 import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 
 class AnimatedIconButton extends StatelessWidget {

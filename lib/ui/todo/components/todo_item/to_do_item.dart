@@ -3,7 +3,7 @@ import 'package:flutter_new_riverpod_test/data/models/to_do_model.dart';
 import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_gesture_detector.dart';
 import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_sliding_card.dart';
 import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_underneath_buttons.dart';
-import 'package:flutter_new_riverpod_test/ui_logic/todo_settings.dart';
+import 'package:flutter_new_riverpod_test/ui/todo/components/todo_item/to_do_item_settings.dart';
 
 class ToDoItem extends StatelessWidget {
   final ToDoModel toDo;
