@@ -16,7 +16,7 @@ class ToDoState extends _$ToDoState {
   @override
   List<ToDoModel> build() => [];
 
-  /// Get the index of the element with the given [id]
+  /// Get the index of the element given item [id]
   int _getListElementIndex(int id) {
     return state.indexWhere((element) => element.id == id);
   }
@@ -38,6 +38,7 @@ class ToDoState extends _$ToDoState {
     await _saveStateToJson();
   }
 
+  /// called in [menu.dart] on app init to retrive todo from the localfile
   Future<void> retrieveToDos() async {
     try {
       final file = await _localFile;
@@ -51,6 +52,9 @@ class ToDoState extends _$ToDoState {
     }
   }
 
+  /// Save the state to a local file
+  /// called in [toggleToDoCheck], [addToDo], [removeToDoAt]
+  ///
   Future<void> _saveStateToJson() async {
     final file = await _localFile;
     final json = jsonEncode(state.map((e) => e.toJson()).toList());
