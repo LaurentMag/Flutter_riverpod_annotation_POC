@@ -4,18 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'tab_count_provider.g.dart';
 
-@Riverpod(keepAlive: true)
-class TabCountState extends _$TabCountState {
-  @override
-  int build() => 3;
-
-  void addTab() => state++;
-}
-
-List<int> createArray(int length) {
-  return List<int>.generate(length, (int index) => index);
-}
-
 /// Handle the list of tab headers
 @Riverpod(keepAlive: true)
 class TabHeaderListState extends _$TabHeaderListState {
@@ -29,6 +17,16 @@ class TabHeaderListState extends _$TabHeaderListState {
   }
 }
 
+/// Create the list of tab headers
+/// watch the tabHeaderListStateProvider to create the list when it changes
+@Riverpod(keepAlive: true)
+List<Widget> createTabHeaderList(CreateTabHeaderListRef ref) {
+  List<TabHeader> tabDataList = ref.watch(tabHeaderListStateProvider);
+
+  return tabDataList.map((TabHeader tab) => tab.createTab).toList();
+}
+
+/// Handle the list of tab content
 @Riverpod(keepAlive: true)
 class TabContentState extends _$TabContentState {
   @override

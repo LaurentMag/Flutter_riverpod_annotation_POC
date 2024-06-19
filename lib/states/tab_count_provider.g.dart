@@ -6,21 +6,22 @@ part of 'tab_count_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$tabCountStateHash() => r'a8282a663cffd306d196278bb16eb21f6163a6af';
+String _$createTabHeaderListHash() =>
+    r'486d165b3c85ac83e6e5ce1c7e08c3239712e959';
 
-/// See also [TabCountState].
-@ProviderFor(TabCountState)
-final tabCountStateProvider = NotifierProvider<TabCountState, int>.internal(
-  TabCountState.new,
-  name: r'tabCountStateProvider',
+/// See also [createTabHeaderList].
+@ProviderFor(createTabHeaderList)
+final createTabHeaderListProvider = Provider<List<Widget>>.internal(
+  createTabHeaderList,
+  name: r'createTabHeaderListProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$tabCountStateHash,
+      : _$createTabHeaderListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$TabCountState = Notifier<int>;
+typedef CreateTabHeaderListRef = ProviderRef<List<Widget>>;
 String _$tabHeaderListStateHash() =>
     r'19c24d5fd65fcc57f26a1fa8b052d74b19d91281';
 

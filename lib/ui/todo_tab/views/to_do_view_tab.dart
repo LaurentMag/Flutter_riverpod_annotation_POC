@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_new_riverpod_test/data/models/tab_models.dart';
 import 'package:flutter_new_riverpod_test/states/tab_count_provider.dart';
 import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,17 +12,11 @@ class ToDoViewTabs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int tabCount = ref.watch(tabCountStateProvider);
-
-    List<Widget> tabs = ref
-        .watch(tabHeaderListStateProvider)
-        .map((TabHeader tab) => tab.createTab)
-        .toList();
-
-    List<Widget> tabContent = ref.watch(tabContentStateProvider);
+    List<Widget> tabsHeader = ref.watch(createTabHeaderListProvider);
+    List<Widget> tabsContent = ref.watch(tabContentStateProvider);
 
     return DefaultTabController(
-      length: tabCount,
+      length: tabsHeader.length,
       child: Builder(
         builder: (BuildContext context) {
           final TabController tabController = DefaultTabController.of(context);
@@ -37,16 +30,20 @@ class ToDoViewTabs extends ConsumerWidget {
             appBar: AppBar(
               backgroundColor: AppColors.grayAppBarBg,
               bottom: TabBar(
-                tabs: tabs,
+                tabs: tabsHeader,
               ),
             ),
             body: Center(
               child: Container(
                 color: AppColors.grayLightBg,
                 child: TabBarView(
-                  children: tabContent,
+                  children: tabsContent,
                 ),
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.add),
             ),
           );
         },
