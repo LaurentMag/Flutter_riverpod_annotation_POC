@@ -11,18 +11,18 @@ class ToDoViewTabs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Widget> tabsHeader = ref.watch(createTabHeaderListProvider);
+    List<Widget> tabsHeader = ref.watch(setTabHeaderWidgetsProvider);
     List<Widget> tabsContent = ref.watch(tabContentStateProvider);
     final int tabControllerLenght = tabsHeader.length;
 
     void createTab() {
-      ref.read(tabHeaderListStateProvider.notifier).addTab();
+      ref.read(tabHeaderStateProvider.notifier).addTab();
       ref.read(tabContentStateProvider.notifier).addTab();
     }
 
     void removeCurentTab() {
       int currentIndex = ref.read(tabIndexStateProvider);
-      ref.read(tabHeaderListStateProvider.notifier).removeTab(currentIndex);
+      ref.read(tabHeaderStateProvider.notifier).removeTab(currentIndex);
       ref.read(tabContentStateProvider.notifier).removeTab(currentIndex);
     }
 

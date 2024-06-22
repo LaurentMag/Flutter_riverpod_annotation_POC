@@ -20,7 +20,7 @@ class TabIndexState extends _$TabIndexState {
 //--------------------------------------------------------------------------------------------
 /// Handle the list of tab headers
 @Riverpod(keepAlive: true)
-class TabHeaderListState extends _$TabHeaderListState {
+class TabHeaderState extends _$TabHeaderState {
   @override
   List<TabHeader> build() {
     return [
@@ -46,8 +46,8 @@ class TabHeaderListState extends _$TabHeaderListState {
 /// Create the list of tab headers
 /// watch the tabHeaderListStateProvider to create the list when it changes
 @Riverpod(keepAlive: true)
-List<Widget> createTabHeaderList(CreateTabHeaderListRef ref) {
-  List<TabHeader> tabDataList = ref.watch(tabHeaderListStateProvider);
+List<Widget> setTabHeaderWidgets(SetTabHeaderWidgetsRef ref) {
+  List<TabHeader> tabDataList = ref.watch(tabHeaderStateProvider);
 
   return tabDataList.map((TabHeader tab) => tab.createTab).toList();
 }
