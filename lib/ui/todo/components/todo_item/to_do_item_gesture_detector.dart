@@ -10,7 +10,9 @@ class ToDoItemGestureDetector extends StatefulWidget {
       underneathButtonsBuilder;
   final Widget Function(double translationX) animatedToDoItemBuilder;
 
-  /// A Widget wrapping a underneathCard containing actions buttons and a card that can be translated via gestures.
+  /// A Widget wrapping a underneathCard containing :
+  /// - card that can be translated via gestures
+  /// - actions buttons
   ///
   /// The card can be translated to the right or left and display buttons underneath.
   /// It allow the user to delete or toggle the to-do item
@@ -37,6 +39,7 @@ class _ToDoItemGestureDetectorState extends State<ToDoItemGestureDetector> {
 
   /// distance to reach via gesture to be able to trigger the delete function
   bool _isDeletionThresholdReached = false;
+  // card width can change based on the device screen size or window resize
   double _cardWidth = 0;
 
   /*
@@ -58,13 +61,19 @@ class _ToDoItemGestureDetectorState extends State<ToDoItemGestureDetector> {
     }
   }
 
+  /// Update the card width and the settings based on the new value
+  /// Updated on Build
+  /// - `newValue`: The new card width value
+  /// - `rightTranslationLimit`: The right translation limit for the toDo card, where the translation will be stopped
+  /// - `leftTranslationLimit`: The left translation limit for the toDo card, where the translation will be stopped
+  /// - `deleteThresholdDistance`: The distance threshold for the toDo card to be deleted while translating the card with a drag gesture
   void updateCardWidthAndSettings(double newValue) {
     // prevent useless calculation
     if (_cardWidth == newValue) return;
 
     _cardWidth = newValue;
 
-    rightTranslationLimit = maxwRightTranslCardWidthPct * _cardWidth;
+    rightTranslationLimit = maxRightTranslCardWidthPct * _cardWidth;
     leftTranslationLimit = maxLeftTranslCardWidthPct * _cardWidth;
     deleteThresholdDistance = deleteThresholdCardWidthPct * _cardWidth;
   }

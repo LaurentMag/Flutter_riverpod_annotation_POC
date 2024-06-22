@@ -12,7 +12,7 @@ const double toDoCardFontSize = 14;
 const double iconButtonWidth = 80;
 
 /// The width of the toDo card that will be used to calculate the translation limits
-const double maxwRightTranslCardWidthPct = 0.3;
+const double maxRightTranslCardWidthPct = 0.3;
 
 /// The right translation limit for the toDo card, where the translation will be stopped
 double rightTranslationLimit = 0;

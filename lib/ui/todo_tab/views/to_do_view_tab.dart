@@ -11,41 +11,28 @@ class ToDoViewTabs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Widget> tabsHeader = ref.watch(createTabHeaderListProvider);
+    List<Widget> tabsHeaders = ref.watch(setTabHeaderWidgetsProvider);
     List<Widget> tabsContent = ref.watch(tabContentStateProvider);
-    final int tabControllerLenght = tabsHeader.length;
-
-    void createTab() {
-      ref.read(tabHeaderListStateProvider.notifier).addTab();
-      ref.read(tabContentStateProvider.notifier).addTab();
-    }
-
-    void removeCurentTab() {
-      int currentIndex = ref.read(tabIndexStateProvider);
-      ref.read(tabHeaderListStateProvider.notifier).removeTab(currentIndex);
-      ref.read(tabContentStateProvider.notifier).removeTab(currentIndex);
-    }
-
-    void setTabIndex(index) {
-      ref.read(tabIndexStateProvider.notifier).setIndex(index);
-    }
+    final int tabControllerLength = tabsHeaders.length;
 
     return DefaultTabController(
-      length: tabControllerLenght,
+      length: tabControllerLength,
       child: Builder(
         builder: (BuildContext context) {
           final TabController tabController = DefaultTabController.of(context);
-          tabController.addListener(() {
-            if (!tabController.indexIsChanging) {
-              setTabIndex(tabController.index);
-            }
-          });
+          tabController.addListener(
+            () {
+              if (!tabController.indexIsChanging) {
+                setTabIndex(ref: ref, index: tabController.index);
+              }
+            },
+          );
 
           return Scaffold(
             appBar: AppBar(
               backgroundColor: AppColors.grayAppBarBg,
               bottom: TabBar(
-                tabs: tabsHeader,
+                tabs: tabsHeaders,
               ),
             ),
             body: Center(
@@ -61,13 +48,13 @@ class ToDoViewTabs extends ConsumerWidget {
               children: [
                 FloatingActionButton(
                   heroTag: const Text('addButton'),
-                  onPressed: createTab,
+                  onPressed: () => createTab(ref: ref),
                   child: const Icon(Icons.add),
                 ),
                 const SizedBox(height: 10),
                 FloatingActionButton(
                   heroTag: const Text('removeButton'),
-                  onPressed: removeCurentTab,
+                  onPressed: () => removeCurrentTab(ref: ref),
                   child: const Icon(Icons.remove),
                 ),
               ],
@@ -79,6 +66,22 @@ class ToDoViewTabs extends ConsumerWidget {
   }
 }
 
+void createTab({required WidgetRef ref}) {
+  ref.read(tabHeaderStateProvider.notifier).addTab();
+  ref.read(tabContentStateProvider.notifier).addTab();
+}
+
+void removeCurrentTab({required WidgetRef ref}) {
+  int currentIndex = ref.read(tabIndexStateProvider);
+  ref.read(tabHeaderStateProvider.notifier).removeTab(currentIndex);
+  ref.read(tabContentStateProvider.notifier).removeTab(currentIndex);
+}
+
+void setTabIndex({required WidgetRef ref, required int index}) {
+  ref.read(tabIndexStateProvider.notifier).setIndex(index);
+}
+
+// --------------------------------------------------------------------------------------------
 class TabContentTesting extends StatelessWidget {
   const TabContentTesting({super.key});
 
