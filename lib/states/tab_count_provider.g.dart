@@ -7,9 +7,12 @@ part of 'tab_count_provider.dart';
 // **************************************************************************
 
 String _$createTabHeaderListHash() =>
-    r'486d165b3c85ac83e6e5ce1c7e08c3239712e959';
+    r'25968b80dab399ec75750600bd356e4effcc5d93';
 
-/// See also [createTabHeaderList].
+/// Create the list of tab headers
+/// watch the tabHeaderListStateProvider to create the list when it changes
+///
+/// Copied from [createTabHeaderList].
 @ProviderFor(createTabHeaderList)
 final createTabHeaderListProvider = Provider<List<Widget>>.internal(
   createTabHeaderList,
@@ -41,9 +44,26 @@ final tabHeaderListStateProvider =
 );
 
 typedef _$TabHeaderListState = Notifier<List<TabHeader>>;
+String _$tabIndexStateHash() => r'8faed3e7f22f7b7244890f03636a3f079a10a8a0';
+
+/// See also [TabIndexState].
+@ProviderFor(TabIndexState)
+final tabIndexStateProvider = NotifierProvider<TabIndexState, int>.internal(
+  TabIndexState.new,
+  name: r'tabIndexStateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$tabIndexStateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$TabIndexState = Notifier<int>;
 String _$tabContentStateHash() => r'3f12049b4d1d0855de112028e7b70ccf37eb7563';
 
-/// See also [TabContentState].
+/// Handle the list of tab content
+///
+/// Copied from [TabContentState].
 @ProviderFor(TabContentState)
 final tabContentStateProvider =
     NotifierProvider<TabContentState, List<Widget>>.internal(

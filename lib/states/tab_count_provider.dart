@@ -4,6 +4,23 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'tab_count_provider.g.dart';
 
+/// Handle the index of the selected tab
+@Riverpod(keepAlive: true)
+class TabIndexState extends _$TabIndexState {
+  @override
+  int build() {
+    return 0;
+  }
+
+  setIndex(int index) {
+    state = index;
+  }
+
+  getIndex() {
+    return state;
+  }
+}
+
 /// Handle the list of tab headers
 @Riverpod(keepAlive: true)
 class TabHeaderListState extends _$TabHeaderListState {
@@ -38,7 +55,3 @@ class TabContentState extends _$TabContentState {
     ];
   }
 }
-
-// -------------------------------------------------------
-
-

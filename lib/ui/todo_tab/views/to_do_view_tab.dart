@@ -4,7 +4,6 @@ import 'package:flutter_new_riverpod_test/ui_style/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //  const Tab(icon: Icon(Icons.question_mark_outlined)),
-
 //  const Text("")
 
 class ToDoViewTabs extends ConsumerWidget {
@@ -15,6 +14,18 @@ class ToDoViewTabs extends ConsumerWidget {
     List<Widget> tabsHeader = ref.watch(createTabHeaderListProvider);
     List<Widget> tabsContent = ref.watch(tabContentStateProvider);
 
+    void createTab() {
+      print("add");
+    }
+
+    void removeCurentTab() {
+      print("remove");
+    }
+
+    void setTabIndex(index) {
+      ref.read(tabIndexStateProvider.notifier).setIndex(index);
+    }
+
     return DefaultTabController(
       length: tabsHeader.length,
       child: Builder(
@@ -22,7 +33,7 @@ class ToDoViewTabs extends ConsumerWidget {
           final TabController tabController = DefaultTabController.of(context);
           tabController.addListener(() {
             if (!tabController.indexIsChanging) {
-              print(tabController.index);
+              setTabIndex(tabController.index);
             }
           });
 
@@ -41,9 +52,21 @@ class ToDoViewTabs extends ConsumerWidget {
                 ),
               ),
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {},
-              child: const Icon(Icons.add),
+            floatingActionButton: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  heroTag: const Text('addButton'),
+                  onPressed: createTab,
+                  child: const Icon(Icons.add),
+                ),
+                const SizedBox(height: 10),
+                FloatingActionButton(
+                  heroTag: const Text('removeButton'),
+                  onPressed: removeCurentTab,
+                  child: const Icon(Icons.remove),
+                ),
+              ],
             ),
           );
         },

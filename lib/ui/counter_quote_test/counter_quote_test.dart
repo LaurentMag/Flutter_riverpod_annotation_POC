@@ -48,21 +48,21 @@ class CounterQuoteTest extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FloatingActionButton(
-              heroTag: "btn1",
+              heroTag: const Text("btn1"),
               onPressed: () => incrementCounter(ref),
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),
             const SizedBox(width: 16),
             FloatingActionButton(
-              heroTag: "btn2",
+              heroTag: const Text("btn2"),
               onPressed: () => decrementCounter(ref),
               tooltip: 'Decrement',
               child: const Icon(Icons.remove),
             ),
             const SizedBox(width: 64),
             FloatingActionButton(
-              heroTag: "btn3",
+              heroTag: const Text("btn3"),
               onPressed: () => getRandomQuote(ref),
               tooltip: 'display random quote',
               child: const Icon(Icons.replay),
