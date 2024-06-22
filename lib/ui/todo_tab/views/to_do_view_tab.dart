@@ -15,8 +15,6 @@ class ToDoViewTabs extends ConsumerWidget {
     List<Widget> tabsContent = ref.watch(tabContentStateProvider);
     final int tabControllerLenght = tabsHeader.length;
 
-    print("In the widget : ${tabsHeader.length}");
-
     void createTab() {
       ref.read(tabHeaderListStateProvider.notifier).addTab();
       ref.read(tabContentStateProvider.notifier).addTab();

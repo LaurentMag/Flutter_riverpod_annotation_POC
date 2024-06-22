@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/data/models/tab_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -68,10 +66,10 @@ class TabContentState extends _$TabContentState {
   }
 
   void addTab() {
-    state = state..add(Text("tab : ${state.length + 1}"));
+    state = [...state, Text("tab : ${state.length + 1}")];
   }
 
   void removeTab(int index) {
-    state = state..removeAt(index);
+    state = [...state.where((element) => element != state[index])];
   }
 }
