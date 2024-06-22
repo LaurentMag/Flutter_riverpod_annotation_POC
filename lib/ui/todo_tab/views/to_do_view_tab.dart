@@ -13,13 +13,19 @@ class ToDoViewTabs extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     List<Widget> tabsHeader = ref.watch(createTabHeaderListProvider);
     List<Widget> tabsContent = ref.watch(tabContentStateProvider);
+    final int tabControllerLenght = tabsHeader.length;
+
+    print("In the widget : ${tabsHeader.length}");
 
     void createTab() {
-      print("add");
+      ref.read(tabHeaderListStateProvider.notifier).addTab();
+      ref.read(tabContentStateProvider.notifier).addTab();
     }
 
     void removeCurentTab() {
-      print("remove");
+      int currentIndex = ref.read(tabIndexStateProvider);
+      ref.read(tabHeaderListStateProvider.notifier).removeTab(currentIndex);
+      ref.read(tabContentStateProvider.notifier).removeTab(currentIndex);
     }
 
     void setTabIndex(index) {
@@ -27,7 +33,7 @@ class ToDoViewTabs extends ConsumerWidget {
     }
 
     return DefaultTabController(
-      length: tabsHeader.length,
+      length: tabControllerLenght,
       child: Builder(
         builder: (BuildContext context) {
           final TabController tabController = DefaultTabController.of(context);

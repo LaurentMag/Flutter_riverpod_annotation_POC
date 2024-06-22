@@ -21,6 +21,12 @@ final GoRouter appRouter = GoRouter(
           },
         ),
         GoRoute(
+          path: 'animation_controller_test',
+          builder: (BuildContext context, GoRouterState state) {
+            return const CardTranslationTesting();
+          },
+        ),
+        GoRoute(
           path: 'todo_list',
           builder: (BuildContext context, GoRouterState state) {
             return const ToDoView();
@@ -30,12 +36,6 @@ final GoRouter appRouter = GoRouter(
           path: 'todo_list_tabs',
           builder: (BuildContext context, GoRouterState state) {
             return const ToDoViewTabs();
-          },
-        ),
-        GoRoute(
-          path: 'animation_controller_test',
-          builder: (BuildContext context, GoRouterState state) {
-            return const CardTranslationTesting();
           },
         ),
       ],

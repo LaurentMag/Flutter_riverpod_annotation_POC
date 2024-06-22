@@ -41,16 +41,16 @@ class _MenuState extends ConsumerState<Menu> {
               action: () => context.go('/counter_quote'),
             ),
             NavigationButton(
+              buttonText: 'animation controller test',
+              action: () => context.go('/animation_controller_test'),
+            ),
+            NavigationButton(
               buttonText: 'todo list',
               action: () => context.go('/todo_list'),
             ),
             NavigationButton(
               buttonText: 'todo list with tabs',
               action: () => context.go('/todo_list_tabs'),
-            ),
-            NavigationButton(
-              buttonText: 'animation controller test',
-              action: () => context.go('/animation_controller_test'),
             ),
           ],
         ),
