@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/ui/animation_controller/card_translation_testing.dart';
 import 'package:flutter_new_riverpod_test/ui/counter_quote_test/counter_quote_test.dart';
 import 'package:flutter_new_riverpod_test/menu.dart';
+import 'package:flutter_new_riverpod_test/ui/riverpod_testing/views/riverpod_test_view.dart';
 import 'package:flutter_new_riverpod_test/ui/todo/views/to_do_view.dart';
 import 'package:flutter_new_riverpod_test/ui/todo_tab/views/to_do_view_tab.dart';
 import 'package:go_router/go_router.dart';
@@ -38,6 +39,12 @@ final GoRouter appRouter = GoRouter(
             return const ToDoViewTabs();
           },
         ),
+        GoRoute(
+          path: 'riverpod_test_view',
+          builder: (BuildContext context, GoRouterState state) {
+            return const RiverpodTestView();
+          },
+        )
       ],
     ),
   ],

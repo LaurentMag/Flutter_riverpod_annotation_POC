@@ -52,6 +52,10 @@ class _MenuState extends ConsumerState<Menu> {
               buttonText: 'todo list with tabs',
               action: () => context.go('/todo_list_tabs'),
             ),
+            NavigationButton(
+              buttonText: 'riverpod testing',
+              action: () => context.go('/riverpod_test_view'),
+            ),
           ],
         ),
       ),
