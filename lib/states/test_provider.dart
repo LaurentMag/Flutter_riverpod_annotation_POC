@@ -1,11 +1,12 @@
 import 'dart:math';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod/riverpod.dart';
 
 part 'test_provider.g.dart';
 
 @riverpod
-List<String> listQuotes(ListQuotesRef ref) {
+List<String> listQuotes(Ref ref) {
   return [
     "The greatest glory in living lies not in never falling, but in rising every time we fall.",
     "The way to get started is to quit talking and begin doing.",
@@ -18,7 +19,7 @@ List<String> listQuotes(ListQuotesRef ref) {
 }
 
 @riverpod
-String randomQuote(RandomQuoteRef ref) {
+String randomQuote(Ref ref) {
   final quotes = ref.watch(listQuotesProvider);
   final String randomQuote = quotes[Random().nextInt(quotes.length)];
 

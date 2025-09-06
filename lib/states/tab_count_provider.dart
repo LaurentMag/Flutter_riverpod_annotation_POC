@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_new_riverpod_test/data/models/tab_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod/riverpod.dart';
 
 part 'tab_count_provider.g.dart';
 
@@ -46,7 +47,7 @@ class TabHeaderState extends _$TabHeaderState {
 /// Create the list of tab headers
 /// watch the tabHeaderListStateProvider to create the list when it changes
 @Riverpod(keepAlive: true)
-List<Widget> setTabHeaderWidgets(SetTabHeaderWidgetsRef ref) {
+List<Widget> setTabHeaderWidgets(Ref ref) {
   List<TabHeader> tabDataList = ref.watch(tabHeaderStateProvider);
 
   return tabDataList.map((TabHeader tab) => tab.createTab).toList();
